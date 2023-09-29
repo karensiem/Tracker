@@ -15,8 +15,11 @@ coffee enthusiasts.
 
 
 ### A *bulleted* list:
-- item 1
-- item 2
-- item 3
-
-An example of text with **bold** and *italic* fonts.  
+#### User Stories: 
+- As a user, I want to be able to add multiple reviews.
+- As a user, I want to be able to search for all sorts of cafe shops.
+- As a user, I want to be able to see a list of all the cafe shops that I want to visit.
+- As a user, I want to be able to see a list of all the cafe shops I have visited.
+- As a user, I want to be able to add cafe shops to "visited" and "want-to visit".
+- As a user, I want to be able to rate the cafe shops on five stars.
+- As a user, I want to be able to filter out the higher or lower rating cafe shops.
