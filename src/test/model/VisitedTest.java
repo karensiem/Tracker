@@ -3,9 +3,6 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,16 +13,16 @@ public class VisitedTest {
     private CoffeeShop cs3;
 
     @BeforeEach
-    public void runBefore(){
+    public void runBefore() {
         testVisit = new Visited();
         cs1 = new CoffeeShop("La Foret", "6848 Jubilee Ave, Burnaby", 4.5);
         cs2 = new CoffeeShop("Beard Papa's", "5252 Imperial St", 2.6);
-        cs3 = new CoffeeShop("Breka", "5252 Imperial St", 2.6);
+        cs3 = new CoffeeShop("Breka", "5252 Imperial St", 3.5);
     }
 
     @Test
-    public void testTrueVisited(){
-        testVisit.addCS(cs1);
+    public void testTrueVisited() {
+        testVisit.addVisited(cs1);
         assertEquals(1, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         testVisit.visited(cs2);
@@ -35,8 +32,8 @@ public class VisitedTest {
     }
 
     @Test
-    public void testRepeatedVisited(){
-        testVisit.addCS(cs1);
+    public void testRepeatedVisited() {
+        testVisit.addVisited(cs1);
         assertEquals(1, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         testVisit.visited(cs1);
@@ -44,10 +41,10 @@ public class VisitedTest {
         assertEquals(cs1, testVisit.getCoffeeShop(0));
     }
     @Test
-    public void testMultipleRepeatedVisited(){
-        testVisit.addCS(cs1);
-        testVisit.addCS(cs2);
-        testVisit.addCS(cs3);
+    public void testMultipleRepeatedVisited() {
+        testVisit.addVisited(cs1);
+        testVisit.addVisited(cs2);
+        testVisit.addVisited(cs3);
         assertEquals(3, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         assertEquals(cs2, testVisit.getCoffeeShop(1));
@@ -62,6 +59,21 @@ public class VisitedTest {
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         assertEquals(cs2, testVisit.getCoffeeShop(1));
         assertEquals(cs3, testVisit.getCoffeeShop(2));
+
     }
+
+    @Test
+    public void testRepeatedNameAndAddress() {
+        CoffeeShop cs4 = new CoffeeShop("La Foret", "6848 Jubilee Ave, Burnaby", 3.6);
+        testVisit.addVisited(cs1);
+        testVisit.addVisited(cs2);
+        testVisit.addVisited(cs3);
+        testVisit.visited(cs4);
+        assertEquals(3, testVisit.getNumItems());
+        assertEquals(cs1, testVisit.getCoffeeShop(0));
+        assertEquals(cs2, testVisit.getCoffeeShop(1));
+        assertEquals(cs3, testVisit.getCoffeeShop(2));
+    }
+
 }
 

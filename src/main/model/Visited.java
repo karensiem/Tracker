@@ -1,43 +1,40 @@
 package model;
 
 import java.util.LinkedList;
-import java.util.List;
-import java.util.ArrayList;
-
 
 
 public class Visited { //coffee shops I have visited
-    private LinkedList<CoffeeShop> csList;
+    private LinkedList<CoffeeShop> vList;
 
 //REQUIRES:
 //MODIFIES:
 //EFFECTS: constructs a list of visited coffee shops.
     public Visited() {
-        this.csList = new LinkedList<>();
+        this.vList = new LinkedList<>();
     }
 
 
 //MODIFIES: this.
 //EFFECTS: Adds given coffee shop to list of visited if not repeated
     public LinkedList<CoffeeShop> visited(CoffeeShop cs) {
-        for (CoffeeShop c : csList) {
-            if (c.getName() == cs.getName()) {
-                return csList;
+        for (CoffeeShop c : vList) {
+            if (c.getName() == cs.getName() && c.getAddress() == cs.getAddress()) {
+                return vList;
             }
         }
-        addCS(cs);
-        return csList;
+        addVisited(cs);
+        return vList;
     }
 
-    public void addCS(CoffeeShop s) {
-        csList.add(s);
+    public void addVisited(CoffeeShop s) {
+        vList.add(s);
     }
 
     //REQUIRES:
     //MODIFIES:
     //EFFECTS: returns the amount of current items in the queue list
     public int getNumItems() {
-        return csList.size();
+        return vList.size();
     }
 
 
@@ -45,7 +42,7 @@ public class Visited { //coffee shops I have visited
     //MODIFIES:
     //EFFECTS: returns the amount of current items in the queue list
     public CoffeeShop getCoffeeShop(int c) {
-        return csList.get(c);
+        return vList.get(c);
     }
 }
 
