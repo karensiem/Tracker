@@ -59,6 +59,34 @@ public class TrackerTest {
         assertEquals(cs5, testTracker.getCoffeeShop(3));
     }
 
+    @Test
+    public void testRemove(){
+        testTracker.addCS(cs1);
+        testTracker.addCS(cs2);
+        testTracker.addCS(cs3);
+        assertEquals(3, testTracker.getNumItems());
+        assertEquals(cs1, testTracker.getCoffeeShop(0));
+        assertEquals(cs2, testTracker.getCoffeeShop(1));
+        assertEquals(cs3, testTracker.getCoffeeShop(2));
+        testTracker.removeCS(cs2.getName());
+        assertEquals(2, testTracker.getNumItems());
+        assertEquals(cs1, testTracker.getCoffeeShop(0));
+        assertEquals(cs3, testTracker.getCoffeeShop(1));
+    }
+
+    @Test
+    public void testFalseRemove(){
+        testTracker.addCS(cs1);
+        testTracker.addCS(cs2);
+        assertEquals(2, testTracker.getNumItems());
+        assertEquals(cs1, testTracker.getCoffeeShop(0));
+        assertEquals(cs2, testTracker.getCoffeeShop(1));
+        testTracker.removeCS(cs3.getName());
+        assertEquals(2, testTracker.getNumItems());
+        assertEquals(cs1, testTracker.getCoffeeShop(0));
+        assertEquals(cs2, testTracker.getCoffeeShop(1));
+
+    }
 
 
 }

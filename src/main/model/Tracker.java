@@ -1,9 +1,11 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Tracker {
-    private LinkedList<CoffeeShop> csList;
+    protected LinkedList<CoffeeShop> csList;
 
     public Tracker() {
         this.csList = new LinkedList<>();
@@ -22,13 +24,21 @@ public class Tracker {
     }
 
 
+
     public void addCS(CoffeeShop s) {
         csList.add(s);
     }
 
     //REQUIRES:
     //MODIFIES:
-    //EFFECTS: returns the amount of current items in the queue list
+    //EFFECTS: removes the given coffee shop in the list
+    public void removeCS(CoffeeShop c) {
+        csList.remove(c);
+    }
+
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: returns the amount of current items in the list
     public int getNumItems() {
         return csList.size();
     }
@@ -36,8 +46,9 @@ public class Tracker {
 
     //REQUIRES:
     //MODIFIES:
-    //EFFECTS: returns the amount of current items in the queue list
+    //EFFECTS: returns the amount of current items in the list
     public CoffeeShop getCoffeeShop(int c) {
         return csList.get(c);
     }
+
 }

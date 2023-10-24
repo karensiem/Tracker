@@ -37,4 +37,5 @@ class CoffeeShopTest {
         cs1.editRating(3.5);
         assertEquals(3.5, cs1.getRating());
     }
+
 }

@@ -75,5 +75,20 @@ public class VisitedTest {
         assertEquals(cs3, testVisit.getCoffeeShop(2));
     }
 
-}
+    @Test
+    public void testRemove() {
+        testVisit.addVisited(cs1);
+        testVisit.addVisited(cs2);
+        testVisit.addVisited(cs3);
+        assertEquals(3, testVisit.getNumItems());
+        assertEquals(cs1, testVisit.getCoffeeShop(0));
+        assertEquals(cs2, testVisit.getCoffeeShop(1));
+        assertEquals(cs3, testVisit.getCoffeeShop(2));
+        testVisit.removeVisited(cs2);
+        assertEquals(2, testVisit.getNumItems());
+        assertEquals(cs1, testVisit.getCoffeeShop(0));
+        assertEquals(cs3, testVisit.getCoffeeShop(1));
+    }
+
+    }
 

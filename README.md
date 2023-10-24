@@ -24,5 +24,5 @@ coffee enthusiasts.
 - As a user, I want to be able to see a list of all the coffee shop I have visited.
 - As a user, I want to be able to add an arbitrary amount of coffee shop to "visited" 
 - As a user, I want to be able to rate the coffee shop on five stars.
-- As a user, I want to be able to filter out the higher or lower rating coffee shop.
+- As a user, I want to be able to filter out the higher rating coffee shop.
 - As a user, I want to be able to only have one rating per coffee shop, so no repeated ones.

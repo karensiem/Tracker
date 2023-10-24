@@ -44,6 +44,14 @@ public class Visited { //coffee shops I have visited
     public CoffeeShop getCoffeeShop(int c) {
         return vList.get(c);
     }
+
+    //REQUIRES: The given coffee shop must be in visited list
+    //MODIFIES:
+    //EFFECTS: removes the given coffee shop from the list
+    public void removeVisited(CoffeeShop v) {
+        vList.remove(v);
+    }
+
 }
 
 
