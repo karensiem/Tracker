@@ -24,16 +24,39 @@ public class Tracker {
     }
 
 
-
-    public void addCS(CoffeeShop s) {
-        csList.add(s);
-    }
-
     //REQUIRES:
     //MODIFIES:
     //EFFECTS: removes the given coffee shop in the list
-    public void removeCS(CoffeeShop c) {
-        csList.remove(c);
+    public void removeCS(String c) {
+        csList.remove(getFromName(c));
+    }
+//method to check if exist or return boolean
+// print out full list in tracker
+
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: return true if cs is in tracker and false otherwise
+    public Boolean inTracker(String c) {
+        for (CoffeeShop cs : csList) {
+            String name = cs.getName();
+            if (c == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: returns the coffee shop with the same name
+    public CoffeeShop getFromName(String name) {
+        for (CoffeeShop cs : csList) {
+            if (cs.getName().equals(name)) {
+                return cs;
+            }
+        }
+        return null;
     }
 
     //REQUIRES:
@@ -46,9 +69,16 @@ public class Tracker {
 
     //REQUIRES:
     //MODIFIES:
-    //EFFECTS: returns the amount of current items in the list
-    public CoffeeShop getCoffeeShop(int c) {
-        return csList.get(c);
+    //EFFECTS: returns the indicated coffee shop with given position
+    public CoffeeShop getCoffeeShop(int i) {
+        return csList.get(i);
+    }
+
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: adds the given coffee shop to list
+    public void addCS(CoffeeShop s) {
+        csList.add(s);
     }
 
 }

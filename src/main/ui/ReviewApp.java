@@ -6,6 +6,8 @@ import model.Visited;
 
 import java.util.Scanner;
 
+
+
 public class ReviewApp {
     private Scanner input;
     private Tracker tracker1;
@@ -37,13 +39,17 @@ public class ReviewApp {
     // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
-        if (command.equals("a")) {
+        if (command.equals("t")) {
             setTracker();
         } else {
             if (command.equals("v")) {
                 setVisited();
             } else {
-                System.out.println("Invalid...\n");
+                if (command.equals("l")) {
+                    setPrinter();
+                } else {
+                    System.out.println("Invalid...\n");
+                }
             }
         }
     }
@@ -87,15 +93,16 @@ public class ReviewApp {
 
         if (r >= 0 && r <= 5) {
             new CoffeeShop(name, address, r);
-            System.out.println("Coffee Shop was successfully added. \n");
+            tracker1.addCS(new CoffeeShop(name, address, r));
+            System.out.println("\nCoffee Shop was successfully added.\n");
         } else {
-            System.out.println("Rating out of bound :(");
+            System.out.println("\nRating out of bound :(\n");
 
-            System.out.println("Select yes if you would like to add another Coffee Shop?");
+            System.out.println("Select yes if you would like to add another Coffee Shop?\n");
             String selected = input.next();
 
             if (selected.equals("yes")) {
-                setTracker();
+                makeCoffeeShop();
             } else {
                 System.out.println("\n");
             }
@@ -106,8 +113,14 @@ public class ReviewApp {
         System.out.print("Enter coffee shop name you would like to remove:");
         String coffeeShop = input.next();
 
-//        tracker1.removeCS(CoffeeShop c);
-        System.out.print("\n");
+        System.out.println(tracker1.inTracker(coffeeShop));
+
+//        if (tracker1.inTracker(coffeeShop)) {
+//            tracker1.removeCS(coffeeShop);
+//            System.out.println("Successfully removed.\n");
+//        } else {
+//            System.out.println("Coffee Shop not found...\n");
+//        }
     }
 
     // MODIFIES: this
@@ -121,10 +134,50 @@ public class ReviewApp {
 
     private void displayStart() {
         System.out.println("\nWould you like to access:");
-        System.out.println("\ta -> Add new coffee shop");
+        System.out.println("\tt -> Coffee shop tracker");
         System.out.println("\tv -> visited coffee shops");
+        System.out.println("\tl -> get list of coffee shops");
         System.out.println("\tq -> quit");
     }
+
+    private void setPrinter() {
+        System.out.println("select to view:\n");
+        System.out.println("\t t -> tracker list");
+        System.out.println("\t v -> visited list");
+
+        String list = input.next();
+
+        if (list.equals("t")) {
+            printList();
+        } else {
+            if (list.equals("v")) {
+                printVisited();
+            }
+        }
+    }
+
+    private String printList() {
+
+        System.out.println("Here is all the Coffee Shops in your list");
+
+        for (int i = 0; i < tracker1.getNumItems(); i++) {
+            CoffeeShop objectT = tracker1.getCoffeeShop(i);
+            System.out.println(objectT.getName() + "  " + objectT.getAddress() + "  " +  objectT.getRating());
+        }
+        return " ";
+    }
+
+    private String printVisited() {
+
+        System.out.println("Here is all the Coffee Shops in your list");
+
+        for (int i = 0; i < visited1.getNumItems(); i++) {
+            CoffeeShop objectV = visited1.getCoffeeShop(i);
+            System.out.println(objectV.getName() + objectV.getAddress() + objectV.getRating());
+        }
+        return " ";
+    }
+
 
 
 }

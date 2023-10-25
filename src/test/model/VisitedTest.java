@@ -25,7 +25,7 @@ public class VisitedTest {
         testVisit.addVisited(cs1);
         assertEquals(1, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
-        testVisit.visited(cs2);
+        testVisit.visit(cs2);
         assertEquals(2, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         assertEquals(cs2, testVisit.getCoffeeShop(1));
@@ -36,7 +36,7 @@ public class VisitedTest {
         testVisit.addVisited(cs1);
         assertEquals(1, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
-        testVisit.visited(cs1);
+        testVisit.visit(cs1);
         assertEquals(1, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
     }
@@ -49,12 +49,12 @@ public class VisitedTest {
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         assertEquals(cs2, testVisit.getCoffeeShop(1));
         assertEquals(cs3, testVisit.getCoffeeShop(2));
-        testVisit.visited(cs1);
+        testVisit.visit(cs1);
         assertEquals(3, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         assertEquals(cs2, testVisit.getCoffeeShop(1));
         assertEquals(cs3, testVisit.getCoffeeShop(2));
-        testVisit.visited(cs3);
+        testVisit.visit(cs3);
         assertEquals(3, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         assertEquals(cs2, testVisit.getCoffeeShop(1));
@@ -68,7 +68,7 @@ public class VisitedTest {
         testVisit.addVisited(cs1);
         testVisit.addVisited(cs2);
         testVisit.addVisited(cs3);
-        testVisit.visited(cs4);
+        testVisit.visit(cs4);
         assertEquals(3, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         assertEquals(cs2, testVisit.getCoffeeShop(1));

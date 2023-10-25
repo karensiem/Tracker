@@ -3,38 +3,39 @@ package model;
 import java.util.LinkedList;
 
 
-public class Visited { //coffee shops I have visited
-    private LinkedList<CoffeeShop> vList;
+public class Visited extends Tracker { //coffee shops I have visited
+    private LinkedList<CoffeeShop> vlist;
 
 //REQUIRES:
 //MODIFIES:
 //EFFECTS: constructs a list of visited coffee shops.
     public Visited() {
-        this.vList = new LinkedList<>();
+        this.vlist = new LinkedList<>();
     }
 
 
 //MODIFIES: this.
 //EFFECTS: Adds given coffee shop to list of visited if not repeated
-    public LinkedList<CoffeeShop> visited(CoffeeShop cs) {
-        for (CoffeeShop c : vList) {
+    public Boolean visit(CoffeeShop cs) {
+        for (CoffeeShop c : csList) {
             if (c.getName() == cs.getName() && c.getAddress() == cs.getAddress()) {
-                return vList;
+                addVisited(cs);
+                return true;
             }
         }
-        addVisited(cs);
-        return vList;
+        return false;
     }
 
+
     public void addVisited(CoffeeShop s) {
-        vList.add(s);
+        vlist.add(s);
     }
 
     //REQUIRES:
     //MODIFIES:
     //EFFECTS: returns the amount of current items in the queue list
     public int getNumItems() {
-        return vList.size();
+        return vlist.size();
     }
 
 
@@ -42,14 +43,14 @@ public class Visited { //coffee shops I have visited
     //MODIFIES:
     //EFFECTS: returns the amount of current items in the queue list
     public CoffeeShop getCoffeeShop(int c) {
-        return vList.get(c);
+        return vlist.get(c);
     }
 
     //REQUIRES: The given coffee shop must be in visited list
     //MODIFIES:
     //EFFECTS: removes the given coffee shop from the list
     public void removeVisited(CoffeeShop v) {
-        vList.remove(v);
+        vlist.remove(v);
     }
 
 }

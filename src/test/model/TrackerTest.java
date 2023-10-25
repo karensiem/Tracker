@@ -24,6 +24,16 @@ public class TrackerTest {
     }
 
     @Test
+    public void testConstructor(){
+        testTracker.addCS(cs1);
+        testTracker.addCS(cs2);
+        testTracker.addCS(cs3);
+        assertEquals(cs2, testTracker.getCoffeeShop(1));
+        assertEquals(cs1, testTracker.getCoffeeShop(0));
+        assertEquals(3, testTracker.getNumItems());
+    }
+
+    @Test
     public void testTracker() {
         testTracker.tracker(cs1);
         assertEquals(1, testTracker.getNumItems());
@@ -60,32 +70,48 @@ public class TrackerTest {
     }
 
     @Test
-    public void testRemove(){
+    public void testGetFromName() {
+        testTracker.addCS(cs1);
+        testTracker.addCS(cs2);
+        testTracker.addCS(cs3);
+        testTracker.tracker(cs5);
+        assertEquals(cs1, testTracker.getFromName("La Foret"));
+        assertEquals(cs3, testTracker.getFromName("Breka"));
+    }
+
+    @Test
+    public void testFailGetFromName() {
+        testTracker.addCS(cs1);
+        testTracker.addCS(cs2);
+        testTracker.addCS(cs3);
+        testTracker.tracker(cs5);
+        assertNull(testTracker.getFromName("Rice"));
+    }
+
+    @Test
+    public void testRemoveCS() {
         testTracker.addCS(cs1);
         testTracker.addCS(cs2);
         testTracker.addCS(cs3);
         assertEquals(3, testTracker.getNumItems());
-        assertEquals(cs1, testTracker.getCoffeeShop(0));
-        assertEquals(cs2, testTracker.getCoffeeShop(1));
-        assertEquals(cs3, testTracker.getCoffeeShop(2));
-        testTracker.removeCS(cs2.getName());
+        testTracker.removeCS("Breka");
         assertEquals(2, testTracker.getNumItems());
         assertEquals(cs1, testTracker.getCoffeeShop(0));
-        assertEquals(cs3, testTracker.getCoffeeShop(1));
+        assertEquals(cs2, testTracker.getCoffeeShop(1));
+        testTracker.removeCS("La Garet");
+        assertEquals(2, testTracker.getNumItems());
+        assertEquals(cs1, testTracker.getCoffeeShop(0));
+        assertEquals(cs2, testTracker.getCoffeeShop(1));
+
     }
 
     @Test
-    public void testFalseRemove(){
+    public void testInTracker() {
+        assertFalse(testTracker.inTracker("Breka"));
         testTracker.addCS(cs1);
         testTracker.addCS(cs2);
-        assertEquals(2, testTracker.getNumItems());
-        assertEquals(cs1, testTracker.getCoffeeShop(0));
-        assertEquals(cs2, testTracker.getCoffeeShop(1));
-        testTracker.removeCS(cs3.getName());
-        assertEquals(2, testTracker.getNumItems());
-        assertEquals(cs1, testTracker.getCoffeeShop(0));
-        assertEquals(cs2, testTracker.getCoffeeShop(1));
-
+        testTracker.addCS(cs3);
+        assertTrue(testTracker.inTracker("Breka"));
     }
 
 
