@@ -107,11 +107,19 @@ public class TrackerTest {
 
     @Test
     public void testInTracker() {
-        assertFalse(testTracker.inTracker("Breka"));
         testTracker.addCS(cs1);
         testTracker.addCS(cs2);
         testTracker.addCS(cs3);
         assertTrue(testTracker.inTracker("Breka"));
+    }
+
+    @Test
+    public void testNotInTracker() {
+        assertFalse(testTracker.inTracker("Breka"));
+        testTracker.addCS(cs1);
+        testTracker.addCS(cs2);
+        testTracker.addCS(cs3);
+        assertFalse(testTracker.inTracker("mario"));
     }
 
 

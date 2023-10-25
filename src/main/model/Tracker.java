@@ -38,8 +38,7 @@ public class Tracker {
     //EFFECTS: return true if cs is in tracker and false otherwise
     public Boolean inTracker(String c) {
         for (CoffeeShop cs : csList) {
-            String name = cs.getName();
-            if (c == name) {
+            if (c == cs.getName()) {
                 return true;
             }
         }

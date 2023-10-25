@@ -112,15 +112,12 @@ public class ReviewApp {
     private void removeCoffeeShop() {
         System.out.print("Enter coffee shop name you would like to remove:");
         String coffeeShop = input.next();
-
-        System.out.println(tracker1.inTracker(coffeeShop));
-
-//        if (tracker1.inTracker(coffeeShop)) {
-//            tracker1.removeCS(coffeeShop);
-//            System.out.println("Successfully removed.\n");
-//        } else {
-//            System.out.println("Coffee Shop not found...\n");
-//        }
+        if (tracker1.inTracker(coffeeShop)) {
+            tracker1.removeCS(coffeeShop);
+            System.out.println("Successfully removed.\n");
+        } else {
+            System.out.println("Coffee Shop not found...\n");
+        }
     }
 
     // MODIFIES: this

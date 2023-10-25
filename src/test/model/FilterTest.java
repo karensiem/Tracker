@@ -24,6 +24,7 @@ public class FilterTest {
     @Test
     public void testConstructor(){
         assertTrue(testfilter.isEmpty());
+        assertEquals(0, testfilter.getNumItems());
         testfilter.addCS(cs1);
         assertFalse(testfilter.isEmpty());
         assertEquals(1, testfilter.getNumItems());
