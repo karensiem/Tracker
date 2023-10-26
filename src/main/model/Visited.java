@@ -3,6 +3,7 @@ package model;
 import java.util.LinkedList;
 
 
+
 public class Visited extends Tracker { //coffee shops I have visited
     private LinkedList<CoffeeShop> vlist;
 
@@ -15,22 +16,40 @@ public class Visited extends Tracker { //coffee shops I have visited
 
 
 //MODIFIES: this.
-//EFFECTS: Adds given coffee shop to list of visited if not repeated
-    public Boolean visit(CoffeeShop cs) {
+//EFFECTS: Adds given coffee shop to list of visited if in tracker
+    public LinkedList<CoffeeShop> visit(String cs) {
         for (CoffeeShop c : csList) {
-            if (c.getName() == cs.getName() && c.getAddress() == cs.getAddress()) {
+            if (cs.equals(c.getName())) {
                 addVisited(cs);
-                return true;
+                return vlist;
             }
         }
-        return false;
+        return vlist;
     }
 
-
-    public void addVisited(CoffeeShop s) {
-        vlist.add(s);
+    @Override
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: removes the given coffee shop from the list
+    public void removeCS(String c) {
+        vlist.remove(getFromName(c));
     }
 
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: adds the given coffee shop name to list
+    public void addVisited(String s) {
+        vlist.add(getFromName(s));
+    }
+
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: adds the given coffee shop to list
+    public void add(CoffeeShop c) {
+        super.addCS(c);
+    }
+
+    @Override
     //REQUIRES:
     //MODIFIES:
     //EFFECTS: returns the amount of current items in the queue list
@@ -38,20 +57,28 @@ public class Visited extends Tracker { //coffee shops I have visited
         return vlist.size();
     }
 
-
+    @Override
     //REQUIRES:
     //MODIFIES:
-    //EFFECTS: returns the amount of current items in the queue list
+    //EFFECTS: returns the indicated coffee shop with given position
     public CoffeeShop getCoffeeShop(int c) {
         return vlist.get(c);
     }
 
-    //REQUIRES: The given coffee shop must be in visited list
+
+
+
+    @Override
+    //REQUIRES:
     //MODIFIES:
-    //EFFECTS: removes the given coffee shop from the list
-    public void removeVisited(CoffeeShop v) {
-        vlist.remove(v);
+    //EFFECTS: adds the given coffee shop to list
+    public void addCS(CoffeeShop s) {
+        vlist.add(s);
+        super.addCS(s);
     }
+
+
+
 
 }
 

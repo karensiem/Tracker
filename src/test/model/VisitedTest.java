@@ -3,8 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class VisitedTest {
     private Visited testVisit;
@@ -21,74 +20,100 @@ public class VisitedTest {
     }
 
     @Test
-    public void testTrueVisited() {
-        testVisit.addVisited(cs1);
-        assertEquals(1, testVisit.getNumItems());
+    public void testConstructors() {
+        assertEquals(0, testVisit.getNumItems());
+        testVisit.addCS(cs1);
+        testVisit.addCS(cs2);
+        assertEquals(2, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
-        testVisit.visit(cs2);
+        assertEquals(cs2, testVisit.getCoffeeShop(1));
+        testVisit.add(cs3);
         assertEquals(2, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
         assertEquals(cs2, testVisit.getCoffeeShop(1));
     }
 
     @Test
-    public void testRepeatedVisited() {
-        testVisit.addVisited(cs1);
-        assertEquals(1, testVisit.getNumItems());
-        assertEquals(cs1, testVisit.getCoffeeShop(0));
-        testVisit.visit(cs1);
-        assertEquals(1, testVisit.getNumItems());
-        assertEquals(cs1, testVisit.getCoffeeShop(0));
-    }
-    @Test
-    public void testMultipleRepeatedVisited() {
-        testVisit.addVisited(cs1);
-        testVisit.addVisited(cs2);
-        testVisit.addVisited(cs3);
+    public void testGetFromName() {
+        testVisit.addCS(cs1);
+        testVisit.addCS(cs2);
+        testVisit.addCS(cs3);
         assertEquals(3, testVisit.getNumItems());
-        assertEquals(cs1, testVisit.getCoffeeShop(0));
-        assertEquals(cs2, testVisit.getCoffeeShop(1));
-        assertEquals(cs3, testVisit.getCoffeeShop(2));
-        testVisit.visit(cs1);
-        assertEquals(3, testVisit.getNumItems());
-        assertEquals(cs1, testVisit.getCoffeeShop(0));
-        assertEquals(cs2, testVisit.getCoffeeShop(1));
-        assertEquals(cs3, testVisit.getCoffeeShop(2));
-        testVisit.visit(cs3);
-        assertEquals(3, testVisit.getNumItems());
-        assertEquals(cs1, testVisit.getCoffeeShop(0));
-        assertEquals(cs2, testVisit.getCoffeeShop(1));
-        assertEquals(cs3, testVisit.getCoffeeShop(2));
-
+        assertEquals(cs1, testVisit.getFromName("La Foret"));
+        assertEquals(cs2, testVisit.getFromName(cs2.getName()));
     }
 
     @Test
-    public void testRepeatedNameAndAddress() {
-        CoffeeShop cs4 = new CoffeeShop("La Foret", "6848 Jubilee Ave, Burnaby", 3.6);
-        testVisit.addVisited(cs1);
-        testVisit.addVisited(cs2);
-        testVisit.addVisited(cs3);
-        testVisit.visit(cs4);
+    public void testGetFromFailName() {
+        testVisit.add(cs1);
+        testVisit.addCS(cs2);
+        testVisit.addCS(cs3);
+        assertEquals(2, testVisit.getNumItems());
+        assertNull(testVisit.getFromName("La Fore"));
+        assertEquals(cs1, testVisit.getFromName(cs1.getName()));
+        testVisit.addVisited(cs1.getName());
         assertEquals(3, testVisit.getNumItems());
-        assertEquals(cs1, testVisit.getCoffeeShop(0));
-        assertEquals(cs2, testVisit.getCoffeeShop(1));
-        assertEquals(cs3, testVisit.getCoffeeShop(2));
     }
 
     @Test
-    public void testRemove() {
-        testVisit.addVisited(cs1);
-        testVisit.addVisited(cs2);
-        testVisit.addVisited(cs3);
+    public void testRemoveCS() {
+        testVisit.addCS(cs1);
+        testVisit.addCS(cs2);
+        testVisit.addCS(cs3);
         assertEquals(3, testVisit.getNumItems());
-        assertEquals(cs1, testVisit.getCoffeeShop(0));
-        assertEquals(cs2, testVisit.getCoffeeShop(1));
-        assertEquals(cs3, testVisit.getCoffeeShop(2));
-        testVisit.removeVisited(cs2);
+        testVisit.removeCS(cs3.getName());
         assertEquals(2, testVisit.getNumItems());
         assertEquals(cs1, testVisit.getCoffeeShop(0));
+        assertEquals(cs2, testVisit.getCoffeeShop(1));
+    }
+
+    @Test
+    public void testRemoveFailCS() {
+        testVisit.addCS(cs1);
+        testVisit.addCS(cs2);
+        testVisit.addCS(cs3);
+        assertEquals(3, testVisit.getNumItems());
+        testVisit.removeCS("Something Sweet");
+        assertEquals(3, testVisit.getNumItems());
+        assertEquals(cs1, testVisit.getCoffeeShop(0));
+        assertEquals(cs2, testVisit.getCoffeeShop(1));
+        assertEquals(cs3, testVisit.getCoffeeShop(2));
+    }
+
+    @Test
+    public void testAddVisited() {
+        testVisit.add(cs1);
+        testVisit.addCS(cs2);
+        testVisit.addCS(cs3);
+        assertEquals(2, testVisit.getNumItems());
+        testVisit.addVisited(cs1.getName());
+        assertEquals(3, testVisit.getNumItems());
+        assertEquals(cs2, testVisit.getCoffeeShop(0));
         assertEquals(cs3, testVisit.getCoffeeShop(1));
+        assertEquals(cs1, testVisit.getCoffeeShop(2));
     }
 
+    @Test
+    public void testVisit() {
+        testVisit.add(cs1);
+        testVisit.add(cs2);
+        testVisit.addCS(cs3);
+        assertEquals(1, testVisit.getNumItems());
+        testVisit.visit(cs1.getName());
+        assertEquals(2, testVisit.getNumItems());
+        assertEquals(cs3, testVisit.getCoffeeShop(0));
+        assertEquals(cs1, testVisit.getCoffeeShop(1));
     }
+
+    @Test
+    public void testFailVisit() {
+        testVisit.add(cs1);
+        testVisit.addCS(cs3);
+        assertEquals(1, testVisit.getNumItems());
+        testVisit.visit(cs2.getName());
+        assertEquals(1, testVisit.getNumItems());
+        assertEquals(cs3, testVisit.getCoffeeShop(0));
+    }
+
+}
 

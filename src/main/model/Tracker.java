@@ -15,7 +15,7 @@ public class Tracker {
 //EFFECTS: Adds given coffee shop to tracker if not already there
     public LinkedList<CoffeeShop> tracker(CoffeeShop cs) {
         for (CoffeeShop c : csList) {
-            if (c.getName() == cs.getName() && c.getAddress() == cs.getAddress()) {
+            if (c.getName().equals(cs.getName()) && c.getAddress().equals(cs.getAddress())) {
                 return csList;
             }
         }
@@ -30,15 +30,13 @@ public class Tracker {
     public void removeCS(String c) {
         csList.remove(getFromName(c));
     }
-//method to check if exist or return boolean
-// print out full list in tracker
 
     //REQUIRES:
     //MODIFIES:
     //EFFECTS: return true if cs is in tracker and false otherwise
     public Boolean inTracker(String c) {
         for (CoffeeShop cs : csList) {
-            if (c == cs.getName()) {
+            if (c.equals(cs.getName())) {
                 return true;
             }
         }
@@ -79,5 +77,6 @@ public class Tracker {
     public void addCS(CoffeeShop s) {
         csList.add(s);
     }
+
 
 }

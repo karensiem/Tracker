@@ -46,5 +46,12 @@ public class Filter extends Tracker {
         return highList.size();
     }
 
+    @Override
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: returns the coffee shop of given position
+    public CoffeeShop getCoffeeShop(int i) {
+        return highList.get(i);
+    }
 
 }

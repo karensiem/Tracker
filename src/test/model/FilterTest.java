@@ -31,6 +31,17 @@ public class FilterTest {
     }
 
     @Test
+    public void testGetCoffeeShop(){
+        t1.addCS(cs1);
+        t1.addCS(cs2);
+        t1.addCS(cs3);
+        testfilter.filterHigh(t1);
+        assertEquals(2, testfilter.getNumItems());
+        assertEquals(cs1, testfilter.getCoffeeShop(0));
+        assertEquals(cs3, testfilter.getCoffeeShop(1));
+    }
+
+    @Test
     public void testFilterHigh(){
         t1.addCS(cs1);
         t1.addCS(cs2);
