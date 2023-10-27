@@ -66,6 +66,7 @@ public class Tracker implements Writable {
         csList.add(s);
     }
 
+    //EFFECTS: returns csList from tracker
     public LinkedList<CoffeeShop> getCSList() {
         return csList;
     }
@@ -79,7 +80,7 @@ public class Tracker implements Writable {
         return json;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns coffee shops in this tracker as a JSON array
     private JSONArray coffeeShopToJson() {
         JSONArray jsonArray = new JSONArray();
 

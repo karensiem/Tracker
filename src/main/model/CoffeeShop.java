@@ -63,6 +63,7 @@ public class CoffeeShop implements Writable {
         this.visited = b;
     }
 
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

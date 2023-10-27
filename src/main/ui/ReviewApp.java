@@ -47,26 +47,26 @@ public class ReviewApp {
     // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
+
         if (command.equals("t")) {
             setTracker();
         } else {
             if (command.equals("f")) {
                 setFilter();
+//            } else {
+//                if (command.equals("c")) {
+//                    setSearch();
             } else {
-                if (command.equals("c")) {
-                    setSearch();
+                if (command.equals("p")) {
+                    setPrinter();
                 } else {
-                    if (command.equals("p")) {
-                        setPrinter();
+                    if (command.equals("l")) {
+                        loadTracker();
                     } else {
-                        if (command.equals("l")) {
-                            loadTracker();
+                        if (command.equals("s")) {
+                            saveTracker();
                         } else {
-                            if (command.equals("s")) {
-                                saveTracker();
-                            } else {
-                                System.out.println("Invalid...\n");
-                            }
+                            System.out.println("Invalid...\n");
                         }
                     }
                 }
@@ -74,18 +74,19 @@ public class ReviewApp {
         }
     }
 
-    private void setSearch() {
-        System.out.println("Please enter the name of the coffee shop:");
-        String shop = input.next();
-
-        if (tracker1.inTracker(shop)) {
-            CoffeeShop cs = tracker1.getFromName(shop);
-            System.out.println(cs.getName() + " " + cs.getAddress() + " " + cs.getRating() + "\n");
-//            editCS(tracker1.getFromName(shop));
-        } else {
-            System.out.println("Sorry, coffee shop not found ...\n");
-        }
-    }
+//    //EFFECTS: return the coffee shop that they are searching for
+//    private void setSearch() {
+//        System.out.println("Please enter the name of the coffee shop:");
+//        String shop = input.next();
+//
+//        if (tracker1.inTracker(shop)) {
+//            CoffeeShop cs = tracker1.getFromName(shop);
+//            System.out.println(cs.getName() + " " + cs.getAddress() + " " + cs.getRating() + "\n");
+////            editCS(tracker1.getFromName(shop));
+//        } else {
+//            System.out.println("Sorry, coffee shop not found ...\n");
+//        }
+//    }
 
 
 //    private void editCS(CoffeeShop c) {
@@ -128,6 +129,7 @@ public class ReviewApp {
 //
 //    }
 
+    //EFFECTS: loads the saved tracker from file
     private void loadTracker() {
         try {
             tracker1 = jsonReader.read();
@@ -150,7 +152,8 @@ public class ReviewApp {
     }
 
 
-
+    //MODIFIES: This tracker1
+    //EFFECTS: adds and removes coffee shops in tracker1
     private void setTracker() {
         System.out.print("Please select\n");
         System.out.print("\tadd -> add a new coffee shop\n");
@@ -165,14 +168,14 @@ public class ReviewApp {
         }
     }
 
-
+    // EFFECTS: filters out coffee shops in tracker with ratings higher than 3.5
     private void setFilter() {
         filter.filterHigh(tracker1);
         printFilter();
     }
 
-
-
+    //MODIFIES: This
+    //EFFECTS: Constructs coffee shop and adds to tracker1
     private void makeCoffeeShop() {
         System.out.print("Enter coffee shop name: ");
         String name = input.next();
@@ -203,7 +206,8 @@ public class ReviewApp {
         }
     }
 
-
+    //MODIFIES: This
+    //EFFECTS: removes coffee shop from tracker1
     private void removeCoffeeShop() {
         System.out.print("Enter coffee shop name you would like to remove:");
         String coffeeShop = input.next();
@@ -224,6 +228,7 @@ public class ReviewApp {
         input.useDelimiter("\n");
     }
 
+    // EFFECTS: displays the options as the starter
     private void displayStart() {
         System.out.println("\nWould you like to access:");
         System.out.println("\tc -> Search for coffee shop");
@@ -235,6 +240,7 @@ public class ReviewApp {
         System.out.println("\tq -> quit");
     }
 
+    // EFFECTS: prints out the selected list
     private void setPrinter() {
         System.out.println("select to view:\n");
         System.out.println("\t t -> tracker list");
@@ -251,6 +257,7 @@ public class ReviewApp {
         }
     }
 
+    // EFFECTS: prints tracker list
     private void printList() {
         System.out.println("Here are all the Coffee Shops in your list");
 
@@ -260,6 +267,7 @@ public class ReviewApp {
         }
     }
 
+    // EFFECTS: prints visited list
     private void printVisited() {
         System.out.println("Here are all the Coffee Shops in your list:");
         for (CoffeeShop cs : tracker1.getCSList()) {
@@ -269,6 +277,7 @@ public class ReviewApp {
         }
     }
 
+    // EFFECTS: prints the filtered list
     private void printFilter() {
         System.out.println("Here are all the high rated Coffee Shops in your list:");
 
@@ -278,6 +287,6 @@ public class ReviewApp {
         }
     }
 
-
+// Citation: JsonSerialicationDemo, workroom java 2023
 }
 
