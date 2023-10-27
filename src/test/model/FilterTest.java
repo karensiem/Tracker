@@ -15,9 +15,9 @@ public class FilterTest {
     @BeforeEach
     public void runBefore(){
         testfilter = new Filter();
-        cs1 = new CoffeeShop("La Foret", "6848 Jubilee Ave, Burnaby", 4.5);
-        cs2 = new CoffeeShop("Beard Papa's", "5252 Imperial St", 2.6);
-        cs3 = new CoffeeShop("Breka", "5252 Imperial St", 3.5);
+        cs1 = new CoffeeShop("La Foret", "6848 Jubilee Ave, Burnaby", 4.5, true);
+        cs2 = new CoffeeShop("Beard Papa's", "5252 Imperial St", 2.6, false);
+        cs3 = new CoffeeShop("Breka", "5252 Imperial St", 3.5, true);
         t1 = new Tracker();
     }
 
@@ -42,7 +42,7 @@ public class FilterTest {
     }
 
     @Test
-    public void testFilterHigh(){
+    public void testFilterHigh() {
         t1.addCS(cs1);
         t1.addCS(cs2);
         t1.addCS(cs3);

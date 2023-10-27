@@ -1,3 +1,6 @@
-{
-
-}
+{"tracker": [{
+    "address": "a",
+    "name": "a",
+    "rating": 1,
+    "visited": true
+}]}
