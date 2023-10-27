@@ -23,32 +23,25 @@ public class Filter extends Tracker {
         }
     }
 
-    //REQUIRES:
-    //MODIFIES:
+
     //EFFECTS: returns true if the list is empty
     public Boolean isEmpty() {
         return highList.isEmpty();
     }
 
     @Override
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: adds the given coffee shop to high rating list
     public void addCS(CoffeeShop s) {
         highList.add(s);
     }
 
     @Override
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: returns the amount of current items in the high rating list
     public int getNumItems() {
         return highList.size();
     }
 
     @Override
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: returns the coffee shop of given position
     public CoffeeShop getCoffeeShop(int i) {
         return highList.get(i);
