@@ -22,6 +22,8 @@ public class ReviewApp {
 
     public ReviewApp() {
         input = new Scanner(System.in);
+        jsonWriter = new JsonWriter(JSON_FILES);
+        jsonReader = new JsonReader(JSON_FILES);
         runApp();
     }
 
