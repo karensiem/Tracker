@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TrackerTest {
@@ -16,11 +18,11 @@ public class TrackerTest {
     @BeforeEach
     public void runBefore() {
         testTracker = new Tracker();
-        cs1 = new CoffeeShop("La Foret", "6848 Jubilee Ave, Burnaby", 4.5);
-        cs2 = new CoffeeShop("Beard Papa's", "5252 Imperial St", 2.6);
-        cs3 = new CoffeeShop("Breka", "5252 Imperial St", 3.5);
-        cs4 = new CoffeeShop("Breka", "5252 Imperial St", 4.7);
-        cs5 = new CoffeeShop("Beard Papa's", "5252 Rupert St", 4.7);
+        cs1 = new CoffeeShop("La Foret", "6848 Jubilee Ave, Burnaby", 4.5, true);
+        cs2 = new CoffeeShop("Beard Papa's", "5252 Imperial St", 2.6, false);
+        cs3 = new CoffeeShop("Breka", "5252 Imperial St", 3.5, true);
+        cs4 = new CoffeeShop("Breka", "5252 Imperial St", 4.7, false);
+        cs5 = new CoffeeShop("Beard Papa's", "5252 Rupert St", 4.7, true);
     }
 
     @Test
@@ -120,6 +122,14 @@ public class TrackerTest {
         testTracker.addCS(cs2);
         testTracker.addCS(cs3);
         assertFalse(testTracker.inTracker("mario"));
+    }
+
+    @Test
+    public void testGetCSList() {
+        testTracker.addCS(cs1);
+        testTracker.addCS(cs2);
+        testTracker.addCS(cs3);
+        assertEquals(3, testTracker.getCSList().size());
     }
 
 

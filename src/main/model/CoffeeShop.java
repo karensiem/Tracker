@@ -1,49 +1,49 @@
 package model;
 
-public class CoffeeShop {
+import org.json.JSONObject;
+import persistence.Writable;
+
+public class CoffeeShop implements Writable {
     private String name;        //name of the coffee shop
     private String address;     //address of the coffee shop
     private Double rating;      // the rating of the coffee shop out of 5
+    private Boolean visited;
 
     //REQUIRES: rating must be between [0, 5]
-    //MODIFIES:
     //EFFECTS: Constructs a coffee shop with the given name, address, and rating
-    public CoffeeShop(String name, String address, Double r) {
+    public CoffeeShop(String name, String address, Double rating, Boolean visited) {
         this.name = name;
         this.address = address;
-        this.rating = r;
-
+        this.rating = rating;
+        this.visited = visited;
     }
 
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: Gets name of the coffee shop
     public String getName() {
         return name;
     }
 
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: Gets Address of the coffee shop
     public String getAddress() {
         return address;
     }
 
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: Gets rating of the coffee shop
     public Double getRating() {
         return rating;
     }
 
-    //REQUIRES:
+    //EFFECTS: Gets visited of the coffee shop
+    public Boolean getVisited() {
+        return visited;
+    }
+
     //MODIFIES: this.
     //EFFECTS: Gets name of the coffee shop and replace it with new name
     public void editName(String n) {
         this.name = n;
     }
 
-    //REQUIRES:
     //MODIFIES: this.
     //EFFECTS: Gets address of the coffee shop and replace with new address
     public void editAddress(String a) {
@@ -57,5 +57,20 @@ public class CoffeeShop {
         this.rating = r;
     }
 
+    //MODIFIES: this.
+    //EFFECTS: Gets address of the coffee shop and replace with new address
+    public void editVisited(Boolean b) {
+        this.visited = b;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("address", address);
+        json.put("rating", rating);
+        json.put("visited", visited);
+        return json;
+    }
 
 }

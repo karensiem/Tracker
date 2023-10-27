@@ -17,14 +17,14 @@ coffee enthusiasts.
 ### A *bulleted* list:
 #### User Stories: 
 - As a user, I want to be able to add coffee shops to the tracker app
-- As a user, I want to be able to select the coffee shop and view its ratings 
 - As a user, I want to be able to delete a coffee shop
 - As a user, I want to be able to see a list of all the coffee shop I have visited.
-- As a user, I want to be able to add an arbitrary amount of coffee shop to "visited" 
 - As a user, I want to be able to rate the coffee shop on five stars.
 - As a user, I want to be able to filter out the higher rating coffee shop.
 - As a user, I want to be able to only have one rating per coffee shop, so no repeated ones.
 - As a user, I want to be able to search for coffee shops
 - As a user, I want to be able to select a coffee shop review and edit its rating and address
+- As a user, I want to be able to select the coffee shop and view its ratings
 - As a user, I want to be given the option to save or not save the lists when I select the quit.
 - As a user, I want to be given the option to resume my tracker list when the application starts.
+

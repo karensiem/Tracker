@@ -1,0 +1,14 @@
+{"tracker": [
+    {
+        "address": "6848 Jubilee Ave, Burnaby",
+        "name": "La Foret",
+        "rating": 4.5,
+        "visited": true
+    },
+    {
+        "address": "5252 Imperial St",
+        "name": "Beard Papa's",
+        "rating": 2.6,
+        "visited": false
+    }
+]}

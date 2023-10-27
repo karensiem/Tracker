@@ -1,10 +1,12 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 
-public class Tracker {
+import java.util.LinkedList;
+
+public class Tracker implements Writable {
     protected LinkedList<CoffeeShop> csList;
 
     public Tracker() {
@@ -23,16 +25,11 @@ public class Tracker {
         return csList;
     }
 
-
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: removes the given coffee shop in the list
     public void removeCS(String c) {
         csList.remove(getFromName(c));
     }
 
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: return true if cs is in tracker and false otherwise
     public Boolean inTracker(String c) {
         for (CoffeeShop cs : csList) {
@@ -43,9 +40,6 @@ public class Tracker {
         return false;
     }
 
-
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: returns the coffee shop with the same name
     public CoffeeShop getFromName(String name) {
         for (CoffeeShop cs : csList) {
@@ -56,27 +50,43 @@ public class Tracker {
         return null;
     }
 
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: returns the amount of current items in the list
     public int getNumItems() {
         return csList.size();
     }
 
 
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: returns the indicated coffee shop with given position
     public CoffeeShop getCoffeeShop(int i) {
         return csList.get(i);
     }
 
-    //REQUIRES:
-    //MODIFIES:
     //EFFECTS: adds the given coffee shop to list
     public void addCS(CoffeeShop s) {
         csList.add(s);
     }
 
+    public LinkedList<CoffeeShop> getCSList() {
+        return csList;
+    }
 
+    // equal/hash code the same cslist or get list frmo tracker
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("tracker", coffeeShopToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray coffeeShopToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (CoffeeShop cs : csList) {
+            jsonArray.put(cs.toJson());
+        }
+
+        return jsonArray;
+    }
 }

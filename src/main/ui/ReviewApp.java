@@ -3,8 +3,11 @@ package ui;
 import model.CoffeeShop;
 import model.Filter;
 import model.Tracker;
-import model.Visited;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -12,8 +15,10 @@ import java.util.Scanner;
 public class ReviewApp {
     private Scanner input;
     protected Tracker tracker1;
-    private Visited visited1;
     private Filter filter;
+    private static final String JSON_FILES = "./data/tracker.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     public ReviewApp() {
         input = new Scanner(System.in);
@@ -44,19 +49,44 @@ public class ReviewApp {
         if (command.equals("t")) {
             setTracker();
         } else {
-            if (command.equals("v")) {
-                setVisited();
+            if (command.equals("f")) {
+                setFilter();
             } else {
-                if (command.equals("f")) {
-                    setFilter();
+                if (command.equals("p")) {
+                    setPrinter();
                 } else {
                     if (command.equals("l")) {
-                        setPrinter();
+                        loadTracker();
                     } else {
-                        System.out.println("Invalid...\n");
+                        if (command.equals("s")) {
+                            saveTracker();
+                        } else {
+                            System.out.println("Invalid...\n");
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private void loadTracker() {
+        try {
+            tracker1 = jsonReader.read();
+            System.out.println("Loaded tracker from " + JSON_FILES);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_FILES);
+        }
+    }
+
+    // EFFECTS: saves the tracker to file
+    private void saveTracker() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(tracker1);
+            jsonWriter.close();
+            System.out.println("Saved tracker to " + JSON_FILES);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_FILES);
         }
     }
 
@@ -76,47 +106,10 @@ public class ReviewApp {
         }
     }
 
-    private void setVisited() {
-        System.out.print("Please select\n");
-
-        System.out.print("\tadd -> add to visited\n"); //[note: the coffee shops must be in tracker]
-
-        System.out.print("\tremove -> remove from the visited list\n");
-
-        String choice = input.next();
-
-        if (choice.equals("add")) {
-            makeVisitedShop();
-        } else {
-            if (choice.equals("remove")) {
-                removeVisitedShop();
-            }
-        }
-    }
 
     private void setFilter() {
         filter.filterHigh(tracker1);
         printFilter();
-    }
-
-    private void makeVisitedShop() {
-        System.out.print("Enter coffee shop name: ");
-        String name = input.next();
-
-        if (tracker1.inTracker(name)) {
-            visited1.visit(name); //keeps adding in null as it accesses a different cslist than the initialized one
-            System.out.println("Successfully added.\n");
-        } else {
-            System.out.println("Coffee Shop not found in Tracker...\n");
-            System.out.println("Would you like to add a new coffee shop in Tracker\n");
-            String decision = input.next();
-
-            if (decision.equals("yes")) {
-                makeCoffeeShop();
-            } else {
-                System.out.println("\n");
-            }
-        }
     }
 
 
@@ -127,11 +120,15 @@ public class ReviewApp {
         System.out.print("Enter coffee shop address: ");
         String address = input.next();
         System.out.print("Enter" + name + "'s rating out of 5:");
-        Double r = input.nextDouble();
+        double rating = input.nextDouble();
+        System.out.print("(true or false) You have visited" + name + "before\n");
+        Boolean visited = input.nextBoolean();
 
-        if (r >= 0 && r <= 5) {
-            new CoffeeShop(name, address, r);
-            tracker1.addCS(new CoffeeShop(name, address, r));
+
+
+        if (rating >= 0 && rating <= 5) {
+            new CoffeeShop(name, address, rating, visited);
+            tracker1.addCS(new CoffeeShop(name, address, rating, visited));
             System.out.println("\nCoffee Shop was successfully added.\n");
         } else {
             System.out.println("\nRating out of bound :(\n");
@@ -147,16 +144,6 @@ public class ReviewApp {
         }
     }
 
-    private void removeVisitedShop() {
-        System.out.print("Enter coffee shop name you would like to remove:");
-        String a = input.next();
-        if (visited1.inTracker(a)) {
-            visited1.removeCS(a);
-            System.out.println("Successfully removed.\n");
-        } else {
-            System.out.println("Coffee Shop not found...\n");
-        }
-    }
 
     private void removeCoffeeShop() {
         System.out.print("Enter coffee shop name you would like to remove:");
@@ -173,7 +160,6 @@ public class ReviewApp {
     // EFFECTS: initializes the app
     private void init() {
         tracker1 = new Tracker();
-        visited1 = new Visited();
         filter = new Filter();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
@@ -182,9 +168,10 @@ public class ReviewApp {
     private void displayStart() {
         System.out.println("\nWould you like to access:");
         System.out.println("\tt -> Coffee shop tracker");
-        System.out.println("\tv -> visited coffee shops");
         System.out.println("\tf -> filter put high rating coffee shops");
-        System.out.println("\tl -> get list of coffee shops");
+        System.out.println("\tp -> get list of Coffee Shops");
+        System.out.println("\ts -> save tracker to files");
+        System.out.println("\tl -> load tracker from files");
         System.out.println("\tq -> quit");
     }
 
@@ -215,10 +202,10 @@ public class ReviewApp {
 
     private void printVisited() {
         System.out.println("Here are all the Coffee Shops in your list:");
-
-        for (int i = 0; i < visited1.getNumItems(); i++) {
-            CoffeeShop objectV = visited1.getCoffeeShop(i);
-            System.out.println("\t" + objectV.getName() + "  " + objectV.getAddress() + "  " +  objectV.getRating());
+        for (CoffeeShop cs : tracker1.getCSList()) {
+            if (cs.getVisited()) {
+                System.out.println("\t" + cs.getName() + "  " + cs.getAddress() + "  " + cs.getRating());
+            }
         }
     }
 
@@ -230,8 +217,6 @@ public class ReviewApp {
             System.out.println("\t" + objectF.getName() + "  " + objectF.getAddress() + "  " +  objectF.getRating());
         }
     }
-
-
 
 
 }

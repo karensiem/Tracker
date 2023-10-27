@@ -3,14 +3,15 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CoffeeShopTest {
     private CoffeeShop cs1;
 
     @BeforeEach
      public void runBefore(){
-        cs1 = new CoffeeShop("La Foret", "6848 Jubilee Ave, Burnaby", 4.5);
+        cs1 = new CoffeeShop(
+                "La Foret", "6848 Jubilee Ave, Burnaby", 4.5, true);
     }
 
     @Test
@@ -18,6 +19,7 @@ class CoffeeShopTest {
         assertEquals("La Foret", cs1.getName());
         assertEquals("6848 Jubilee Ave, Burnaby", cs1.getAddress());
         assertEquals(4.5, cs1.getRating());
+        assertTrue(cs1.getVisited());
     }
 
     @Test
@@ -36,6 +38,12 @@ class CoffeeShopTest {
     public void testEditRating(){
         cs1.editRating(3.5);
         assertEquals(3.5, cs1.getRating());
+    }
+
+    @Test
+    public void testEditVisited(){
+        cs1.editVisited(false);
+        assertFalse(cs1.getVisited());
     }
 
 }

@@ -2,25 +2,25 @@ package model;
 
 
 import java.util.LinkedList;
-import java.util.List;
+
 
 public class Filter extends Tracker {
     private LinkedList<CoffeeShop> highList;
 
     public Filter() {
+        super();
         highList = new LinkedList<>();
     }
 
     //REQUIRES: tracker with at least 1 coffee shop
     //MODIFIES: this
     //EFFECTS: filters out the coffee shops with rating higher or equal to 3.5
-    public LinkedList<CoffeeShop> filterHigh(Tracker t) {
+    public void filterHigh(Tracker t) {
         for (CoffeeShop c : t.csList) {
             if (c.getRating() >= 3.5) {
                 addCS(c);
             }
         }
-        return highList;
     }
 
     //REQUIRES:
@@ -41,7 +41,7 @@ public class Filter extends Tracker {
     @Override
     //REQUIRES:
     //MODIFIES:
-    //EFFECTS: returns the amount of current items in the hight rating list
+    //EFFECTS: returns the amount of current items in the high rating list
     public int getNumItems() {
         return highList.size();
     }
