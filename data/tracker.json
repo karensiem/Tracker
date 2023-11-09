@@ -1,6 +1,14 @@
-{"tracker": [{
-    "address": "a",
-    "name": "a",
-    "rating": 1,
-    "visited": true
-}]}
+{"tracker": [
+    {
+        "address": "here",
+        "name": "coffee",
+        "rating": 5,
+        "visited": false
+    },
+    {
+        "address": "here",
+        "name": "coffee 2",
+        "rating": 1,
+        "visited": true
+    }
+]}

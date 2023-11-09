@@ -47,87 +47,81 @@ public class ReviewApp {
     // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
-
-        if (command.equals("t")) {
-            setTracker();
-        } else {
-            if (command.equals("f")) {
+        switch (command) {
+            case "t":
+                setTracker();
+                break;
+            case "f":
                 setFilter();
-//            } else {
-//                if (command.equals("c")) {
-//                    setSearch();
-            } else {
-                if (command.equals("p")) {
-                    setPrinter();
-                } else {
-                    if (command.equals("l")) {
-                        loadTracker();
-                    } else {
-                        if (command.equals("s")) {
-                            saveTracker();
-                        } else {
-                            System.out.println("Invalid...\n");
-                        }
-                    }
-                }
-            }
+                break;
+            case "s":
+                setSearch();
+                break;
+            case "p":
+                setPrinter();
+                break;
+            case "l":
+                loadTracker();
+                break;
+            case "k":
+                saveTracker();
+                break;
+            default:
+                System.out.println("Invalid...\n");
         }
     }
 
-//    //EFFECTS: return the coffee shop that they are searching for
-//    private void setSearch() {
-//        System.out.println("Please enter the name of the coffee shop:");
-//        String shop = input.next();
-//
-//        if (tracker1.inTracker(shop)) {
-//            CoffeeShop cs = tracker1.getFromName(shop);
-//            System.out.println(cs.getName() + " " + cs.getAddress() + " " + cs.getRating() + "\n");
-////            editCS(tracker1.getFromName(shop));
-//        } else {
-//            System.out.println("Sorry, coffee shop not found ...\n");
-//        }
-//    }
+    //EFFECTS: return the coffee shop that they are searching for
+    private void setSearch() {
+        System.out.println("Please enter the name of the coffee shop:");
+        String shop = input.next();
+
+        if (tracker1.inTracker(shop)) {
+            CoffeeShop cs = tracker1.getFromName(shop);
+            System.out.println(cs.getName() + " " + cs.getAddress() + " " + cs.getRating() + "\n");
+            editCS(tracker1.getFromName(shop));
+        } else {
+            System.out.println("Sorry, coffee shop not found ...\n");
+        }
+    }
 
 
-//    private void editCS(CoffeeShop c) {
-//        System.out.println("Would you like to edit:\n");
-//        System.out.println("\t n -> name\n");
-//        System.out.println("\t a -> address\n");
-//        System.out.println("\t r -> rating\n");
-//        System.out.println("\t v -> visited?\n");
-//        String edit = input.next();
-//
-//        if (edit.equals("n")) {
-//            System.out.println("new name:");
-//            String n = input.next();
-//
-//            c.editName(n);
-//        } else {
-//            if (edit.equals("a")) {
-//                System.out.println("new address:");
-//                String a = input.next();
-//
-//                c.editAddress(a);
-//            } else {
-//                if (edit.equals("r")) {
-//                    System.out.println("new rating:");
-//                    double r = input.nextDouble();
-//
-//                    c.editRating(r);
-//                } else {
-//                    if (edit.equals("v")) {
-//                        System.out.println("Visited?: true or false");
-//                        Boolean r = input.nextBoolean();
-//
-//                        c.editVisited(r);
-//                    } else {
-//                        System.out.println("Invalid response ...\n");
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
+    private void editCS(CoffeeShop c) {
+        System.out.println("Would you like to edit:\n");
+        System.out.println("\t n -> name\n");
+        System.out.println("\t a -> address\n");
+        System.out.println("\t r -> rating\n");
+        System.out.println("\t v -> visited?\n");
+        String edit = input.next();
+        edit(edit,c);
+    }
+
+    private void edit(String edit, CoffeeShop c) {
+        switch (edit) {
+            case "n":
+                System.out.println("new name:");
+                String n = input.next();
+                c.editName(n);
+                break;
+            case "a":
+                System.out.println("new address:");
+                String a = input.next();
+                c.editAddress(a);
+                break;
+            case "r":
+                System.out.println("new rating:");
+                double r = input.nextDouble();
+                c.editRating(r);
+                break;
+            case "v":
+                System.out.println("Visited?: true or false");
+                Boolean b = input.nextBoolean();
+                c.editVisited(b);
+                break;
+//            default:
+//                System.out.println("Invalid response ...\n");
+        }
+    }
 
     //EFFECTS: loads the saved tracker from file
     private void loadTracker() {
@@ -231,11 +225,11 @@ public class ReviewApp {
     // EFFECTS: displays the options as the starter
     private void displayStart() {
         System.out.println("\nWould you like to access:");
-        System.out.println("\tc -> Search for coffee shop");
         System.out.println("\tt -> Coffee shop tracker");
+        System.out.println("\ts -> search for Coffee Shop in tracker");
         System.out.println("\tf -> filter put high rating coffee shops");
         System.out.println("\tp -> get list of Coffee Shops");
-        System.out.println("\ts -> save tracker to files");
+        System.out.println("\tk -> keep tracker to files");
         System.out.println("\tl -> load tracker from files");
         System.out.println("\tq -> quit");
     }
