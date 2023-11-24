@@ -6,7 +6,9 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,13 +17,12 @@ import java.io.IOException;
 
 public class ReviewAppGUI extends JFrame implements ActionListener {
     private Tracker tracker;
-    private static final int HEIGHT = 200;
+    private JList<CoffeeShop> trackerJ;
+    private static final int HEIGHT = 400;
     private static final int WIDTH = 600;
     private static final String JSON_FILES = "./data/tracker.json";
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    private JFrame mainFrame;
-    private JDesktopPane desktop;
     private JButton addCS;
 
     private String[] labelStrings = {
@@ -32,9 +33,13 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
     private JTextField rating;
     private JTextField visited;
 
+    private DefaultListModel defModel;
+
     public ReviewAppGUI() {
         super("Coffee Shop Tracker");
-        tracker = new Tracker();
+        jsonWriter = new JsonWriter(JSON_FILES);
+        jsonReader = new JsonReader(JSON_FILES);
+
         initializeDisplay();
 
     }
@@ -45,10 +50,14 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         addMenuBar();
         buttons();
         fieldsCS();
+        add(listDisplay());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+
+
 
 
     protected JComponent fieldsCS() {
@@ -60,7 +69,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         panel.add(enterName());
         panel.add(new JLabel("Address:"));
         panel.add(enterAddress());
-        panel.add(new JLabel("Rating (0-5):"));
+        panel.add(new JLabel("Rating:"));
         panel.add(enterRating());
         panel.add(new JLabel("Visited?"));
         panel.add(enterVisited());
@@ -68,6 +77,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
 
         return panel;
     }
+
 
     private JTextField enterName() {
         name = new JTextField(10);
@@ -105,6 +115,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         addCS = new JButton("add");
         addCS.setVisible(true);
         addCS.setFont(new Font("Cinzel", Font.BOLD, 13));
+        addCS.addActionListener(this);
         addCS.setActionCommand("add");
         addCS.setBorderPainted(true);
         addCS.setOpaque(true);
@@ -125,22 +136,47 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
 
     private void addMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu sensorMenu = new JMenu("Save");
-        sensorMenu.setMnemonic('S');
-        menuBar.add(sensorMenu);
 
-        JMenu codeMenu = new JMenu("Load");
-        codeMenu.setMnemonic('L');
-        menuBar.add(codeMenu);
+        JMenu saveMenu = new JMenu("Save");
+        addMenuAction(saveMenu, new SavedAction());
+        menuBar.add(saveMenu);
+
+        JMenu loadMenu = new JMenu("Load");
+        addMenuAction(loadMenu, new LoadAction());
+        menuBar.add(loadMenu);
 
         setJMenuBar(menuBar);
     }
 
-    private void refreshTextFields() {
-        name.setText("");
-        address.setText("");
-        rating.setText(null);
-        visited.setText(null);
+    private void addMenuAction(JMenu menu, AbstractAction action) {
+        JMenuItem menuItem = new JMenuItem(action);
+        menu.add(menuItem);
+    }
+
+    private class SavedAction extends AbstractAction {
+        SavedAction() {
+            super("save");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            try {
+                saved();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class LoadAction extends AbstractAction {
+        LoadAction() {
+            super("load");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            load();
+        }
     }
 
     //creates coffee shop from text fields
@@ -151,10 +187,23 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         boolean v = Boolean.parseBoolean(visited.getText());
         CoffeeShop coffeeShop = new CoffeeShop(n, a, r, v);
 
+        defModel.addElement(coffeeShop.getName());
         return coffeeShop;
     }
 
-    public void saved() throws FileNotFoundException {
+    public ImageIcon coffeeIcon() {
+        ImageIcon coffee = new ImageIcon("./data/coffeeSmall.png");
+        Image image = coffee.getImage();
+        Image fitImage = image.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
+        coffee = new ImageIcon(fitImage);
+        return coffee;
+    }
+
+    public JFrame saved() throws FileNotFoundException {
+        JFrame savePopUp = new JFrame();
+        savePopUp.setLayout(new GridLayout(2, 1));
+        JLabel text = new JLabel("Your tracker has been saved!");
+
         try {
             jsonWriter.open();
             jsonWriter.write(tracker);
@@ -163,6 +212,18 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         } catch (FileNotFoundException e) {
             System.out.println("Could not save tracker to: " + JSON_FILES);
         }
+
+        JLabel image = new JLabel(coffeeIcon());
+        savePopUp.setDefaultCloseOperation(savePopUp.DISPOSE_ON_CLOSE);
+        savePopUp.setSize(200, 170);
+        text.setFont(new Font("Cinzel", Font.PLAIN, 12));
+        savePopUp.add(image);
+        savePopUp.add(text);
+        savePopUp.setLocationRelativeTo(null);
+        savePopUp.setVisible(true);
+
+
+        return savePopUp;
     }
 
     public void load() {
@@ -172,21 +233,44 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         } catch (IOException e) {
             System.out.println("Could not save tracker from: " + JSON_FILES);
         }
+
+        for (CoffeeShop c : tracker.getCSList()) {
+            defModel.addElement(c.getName());
+        }
+    }
+
+
+    private JComponent listDisplay() {
+        JPanel list = new JPanel(new BorderLayout());
+        list.setVisible(true);
+        list.setPreferredSize(new Dimension(150, 200));
+        Border border = new LineBorder(Color.BLACK,2, true);
+        list.setBorder(border);
+        tracker = new Tracker();
+        trackerJ = new JList<>();
+        defModel = new DefaultListModel();
+        trackerJ.setModel(defModel);
+
+        list.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        list.add(new JSeparator(JSeparator.VERTICAL),
+                BorderLayout.LINE_START);
+        list.add(trackerJ, BorderLayout.CENTER);
+
+        return list;
+    }
+
+    private void clearForm() {
+        name.setText("");
+        address.setText("");
+        rating.setText(null);
+        visited.setText(null);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if ("add".equals(e.getActionCommand())) {
+    public void actionPerformed(ActionEvent act) {
+        if ("add".equals(act.getActionCommand())) {
             tracker.addCS(createCS());
-//            addToListScreen();
-        } else if ("save".equals(e.getActionCommand())) {
-            try {
-                saved();
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            load();
+            clearForm();
         }
     }
 
