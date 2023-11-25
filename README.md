@@ -28,3 +28,11 @@ coffee enthusiasts.
 - As a user, I want to be given the option to save or not save the lists when I select the quit.
 - As a user, I want to be given the option to resume my tracker list when the application starts.
 
+### Instructions for Grader:
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by filling in the
+text fields and pressing the add button. 
+- You can generate the second required action related to the user story "adding multiple Xs to a Y" by selecting the 
+element you want to remove and pressing the remove button.
+- You can locate my visual component by saving the tracker on the right panel through menuItem "save"
+- You can save the state of my application by clicking the sub menu item under the "save" optioin
+- You can reload the state of my application by clicking the sub menu item under the "load" optioin
