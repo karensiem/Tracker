@@ -1,1 +1,6 @@
-{"tracker": []}
+{"tracker": [{
+    "address": "address",
+    "name": "coffee",
+    "rating": 3,
+    "visited": true
+}]}

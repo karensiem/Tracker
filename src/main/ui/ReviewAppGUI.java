@@ -18,7 +18,7 @@ import java.io.IOException;
 public class ReviewAppGUI extends JFrame implements ActionListener {
     private Tracker tracker;
     private JList<CoffeeShop> trackerJ;
-    private static final int HEIGHT = 400;
+    private static final int HEIGHT = 250;
     private static final int WIDTH = 600;
     private static final String JSON_FILES = "./data/tracker.json";
     private JsonWriter jsonWriter;
@@ -35,6 +35,8 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
 
     private DefaultListModel defModel;
 
+
+    //EFFECTS: constructs JSON writer, reader, and initializes the display
     public ReviewAppGUI() {
         super("Coffee Shop Tracker");
         jsonWriter = new JsonWriter(JSON_FILES);
@@ -44,6 +46,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
 
     }
 
+    //EFFECTS: initializes main JFrame
     private void initializeDisplay() {
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -56,10 +59,8 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-
-
-
-
+    //MODIIFIES: this.
+    //EFFECTS: constructs panel with text fields
     protected JComponent fieldsCS() {
         JPanel panel = new JPanel(new SpringLayout());
         panel.setLayout(new GridLayout(4, 1, 7, 7));
@@ -79,6 +80,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
     }
 
 
+    //EFFECTS: constructs name text fields
     private JTextField enterName() {
         name = new JTextField(10);
         name.setSize(100, 20);
@@ -87,6 +89,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return name;
     }
 
+    //EFFECTS: constructs address text fields
     private JTextField enterAddress() {
         address = new JTextField();
         address.setVisible(true);
@@ -95,6 +98,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return address;
     }
 
+    //EFFECTS: constructs rating text fields
     private JTextField enterRating() {
         rating = new JTextField();
         rating.setVisible(true);
@@ -103,6 +107,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return rating;
     }
 
+    //EFFECTS: constructs visited text fields
     private JTextField enterVisited() {
         visited = new JTextField();
         visited.setVisible(true);
@@ -111,6 +116,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return visited;
     }
 
+    //EFFECTS: constructs the "add" button
     private JButton addCSButton() {
         addCS = new JButton("add");
         addCS.setVisible(true);
@@ -123,6 +129,8 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return addCS;
     }
 
+
+    //EFFECTS: construct panel that adds the button
     private JComponent buttons() {
         JPanel addButton = new JPanel();
         addButton.setLayout(new GridLayout(0,1));
@@ -134,6 +142,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
     }
 
 
+    //EFFECTS: constructs menu bar with save and load functions
     private void addMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
@@ -148,16 +157,21 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         setJMenuBar(menuBar);
     }
 
+    //EFFECTS: helper that connects action listener with menu item
     private void addMenuAction(JMenu menu, AbstractAction action) {
         JMenuItem menuItem = new JMenuItem(action);
         menu.add(menuItem);
     }
 
+
     private class SavedAction extends AbstractAction {
+
+        //EFFECTS: constructs sub "Save" item
         SavedAction() {
             super("save");
         }
 
+        //EFFECTS: links action performed with the saved menu item
         @Override
         public void actionPerformed(ActionEvent evt) {
             try {
@@ -168,18 +182,23 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         }
     }
 
+
     private class LoadAction extends AbstractAction {
+
+        //EFFECTS: constructs sub "Load" item
         LoadAction() {
             super("load");
         }
 
+        //EFFECTS: links action performed with the load menu item
         @Override
         public void actionPerformed(ActionEvent evt) {
             load();
         }
     }
 
-    //creates coffee shop from text fields
+
+    //EFFECTS: constructs coffee hsop and adds to list and tracker
     private CoffeeShop createCS() {
         String n = name.getText();
         String a = address.getText();
@@ -191,6 +210,8 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return coffeeShop;
     }
 
+
+    //EFFECTS: constructs icon for saved pop up
     public ImageIcon coffeeIcon() {
         ImageIcon coffee = new ImageIcon("./data/coffeeSmall.png");
         Image image = coffee.getImage();
@@ -199,6 +220,8 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return coffee;
     }
 
+
+    //EFFECTS: constructs pop up for coffee shops saved and saves the coffee shop tracker
     public JFrame saved() throws FileNotFoundException {
         JFrame savePopUp = new JFrame();
         savePopUp.setLayout(new GridLayout(2, 1));
@@ -226,6 +249,8 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return savePopUp;
     }
 
+
+    //EFFECTS: loads the saved tracker to the right panel
     public void load() {
         try {
             tracker = jsonReader.read();
@@ -240,6 +265,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
     }
 
 
+    //EFFECTS: returns right panel for the JFrame and list out added coffee shops and/or loaded tracker
     private JComponent listDisplay() {
         JPanel list = new JPanel(new BorderLayout());
         list.setVisible(true);
@@ -259,6 +285,8 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return list;
     }
 
+    //MODIIFIES: this.
+    //EFFECTS: clears out the text fields
     private void clearForm() {
         name.setText("");
         address.setText("");
@@ -266,6 +294,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         visited.setText(null);
     }
 
+    //EFFECTS: action performed when "add" button is clicked
     @Override
     public void actionPerformed(ActionEvent act) {
         if ("add".equals(act.getActionCommand())) {
