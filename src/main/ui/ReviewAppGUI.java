@@ -24,6 +24,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private JButton addCS;
+    private JButton removeCS;
 
     private String[] labelStrings = {
             "Name: ", "Address: ", "Rating: ", "Visited: "
@@ -129,16 +130,30 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return addCS;
     }
 
+    //EFFECTS: constructs the "remove" button
+    private JButton removeCSButton() {
+        removeCS = new JButton("remove");
+        removeCS.setVisible(true);
+        removeCS.setFont(new Font("Cinzel", Font.BOLD, 13));
+        removeCS.addActionListener(this);
+        removeCS.setActionCommand("add");
+        removeCS.setBorderPainted(true);
+        removeCS.setOpaque(true);
+        removeCS.setContentAreaFilled(true);
+        return removeCS;
+    }
+
 
     //EFFECTS: construct panel that adds the button
     private JComponent buttons() {
-        JPanel addButton = new JPanel();
-        addButton.setLayout(new GridLayout(0,1));
-        addButton.setSize(new Dimension(0, 0));
-        add(addButton, BorderLayout.PAGE_END);
+        JPanel button = new JPanel();
+        button.setLayout(new GridLayout(0,2));
+        button.setSize(new Dimension(0, 0));
+        add(button, BorderLayout.PAGE_END);
 
-        addButton.add(addCSButton());
-        return addButton;
+        button.add(addCSButton());
+        button.add(removeCSButton());
+        return button;
     }
 
 
@@ -294,14 +309,22 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         visited.setText(null);
     }
 
-    //EFFECTS: action performed when "add" button is clicked
+    //EFFECTS: action performed when any button is clicked
     @Override
     public void actionPerformed(ActionEvent act) {
         if ("add".equals(act.getActionCommand())) {
             tracker.addCS(createCS());
             clearForm();
+        } else {
+            if ("remove".equals(act.getActionCommand())) {
+                tracker.removeCS(tracker.getCoffeeShop(trackerJ.getSelectedIndex()).getName());
+                defModel.removeElementAt(trackerJ.getSelectedIndex());
+            }
         }
     }
+
+
+
 
 
     public static void main(String[] args) {
