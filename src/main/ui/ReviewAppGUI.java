@@ -8,7 +8,6 @@ import persistence.JsonWriter;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,15 +17,17 @@ import java.io.IOException;
 public class ReviewAppGUI extends JFrame implements ActionListener {
     private Tracker tracker;
     private JList<CoffeeShop> trackerJ;
+    private JList<CoffeeShop> filterJ;
     private static final int HEIGHT = 250;
     private static final int WIDTH = 600;
     private static final String JSON_FILES = "./data/tracker.json";
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private final JsonWriter jsonWriter;
+    private final JsonReader jsonReader;
     private JButton addCS;
     private JButton removeCS;
+    private JButton filterCS;
 
-    private String[] labelStrings = {
+    private final String[] labelStrings = {
             "Name: ", "Address: ", "Rating: ", "Visited: "
     };
     private JTextField name;
@@ -35,6 +36,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
     private JTextField visited;
 
     private DefaultListModel defModel;
+    private DefaultListModel filterModel;
 
 
     //EFFECTS: constructs JSON writer, reader, and initializes the display
@@ -143,16 +145,30 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return removeCS;
     }
 
+    //EFFECTS: constructs the "filter" button
+    private JButton filterCSButton() {
+        filterCS = new JButton("filter");
+        filterCS.setVisible(true);
+        filterCS.setFont(new Font("Cinzel", Font.BOLD, 13));
+        filterCS.addActionListener(this);
+        filterCS.setActionCommand("filter");
+        filterCS.setBorderPainted(true);
+        filterCS.setOpaque(true);
+        filterCS.setContentAreaFilled(true);
+        return filterCS;
+    }
+
 
     //EFFECTS: construct panel that adds the button
     private JComponent buttons() {
         JPanel button = new JPanel();
-        button.setLayout(new GridLayout(0,2));
+        button.setLayout(new GridLayout(0,3));
         button.setSize(new Dimension(0, 0));
         add(button, BorderLayout.PAGE_END);
 
         button.add(addCSButton());
         button.add(removeCSButton());
+        button.add(filterCSButton());
         return button;
     }
 
@@ -213,7 +229,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
     }
 
 
-    //EFFECTS: constructs coffee hsop and adds to list and tracker
+    //EFFECTS: constructs coffee shop and adds to list and tracker
     private CoffeeShop createCS() {
         String n = name.getText();
         String a = address.getText();
@@ -309,6 +325,49 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         visited.setText(null);
     }
 
+    //EFFECTS: constructs list to display for the filtered function
+    public JPanel filterList() {
+        JPanel filterList = new JPanel(new BorderLayout());
+        filterList.setVisible(true);
+        filterList.setPreferredSize(new Dimension(150, 200));
+        Border border = new LineBorder(Color.BLACK,2, true);
+        filterList.setBorder(border);
+        filterList.setLayout(new BorderLayout());
+        JLabel text = new JLabel("High rated Coffee Shops:");
+        filterJ = new JList<>();
+        filterModel = new DefaultListModel();
+        filterJ.setModel(filterModel);
+
+        for (CoffeeShop c : tracker.getCSList()) {
+            if (c.getRating() >= 3.5) {
+                filterModel.addElement(c.getName());
+            }
+        }
+
+        filterList.add(filterJ, BorderLayout.CENTER);
+
+        return filterList;
+    }
+
+    //EFFECTS: constructs pop up for filtered high rated coffee shops
+    public JFrame filter() {
+        JFrame filterPopUp = new JFrame();
+        filterPopUp.setLayout(new BorderLayout());
+        JLabel text = new JLabel("High rated Coffee Shop:");
+
+        filterPopUp.setDefaultCloseOperation(filterPopUp.DISPOSE_ON_CLOSE);
+        filterPopUp.setSize(200, 170);
+        text.setFont(new Font("Cinzel", Font.PLAIN, 12));
+        filterPopUp.add(text);
+        filterPopUp.add(filterList(), BorderLayout.CENTER);
+        filterPopUp.setLocationRelativeTo(null);
+        filterPopUp.setVisible(true);
+
+        return filterPopUp;
+    }
+
+
+
     //EFFECTS: action performed when any button is clicked
     @Override
     public void actionPerformed(ActionEvent act) {
@@ -316,13 +375,11 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
             tracker.addCS(createCS());
             clearForm();
         } else {
-            if ("remove".equals(act.getActionCommand())) {
-                tracker.removeCS(tracker.getCoffeeShop(trackerJ.getSelectedIndex()).getName());
-                defModel.removeElementAt(trackerJ.getSelectedIndex());
+            if ("filter".equals(act.getActionCommand())) {
+                filter();
             }
         }
     }
-
 
 
 
