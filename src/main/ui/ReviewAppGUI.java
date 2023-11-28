@@ -349,7 +349,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         return filterList;
     }
 
-    //EFFECTS: constructs pop up for filtered high rated coffee shops
+    //EFFECTS: constructs pop up for filtered high rated coffee shops.
     public JFrame filter() {
         JFrame filterPopUp = new JFrame();
         filterPopUp.setLayout(new BorderLayout());
