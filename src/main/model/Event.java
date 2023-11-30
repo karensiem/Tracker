@@ -51,14 +51,14 @@ public class Event {
         Event otherEvent = (Event) other;
 
         return (this.dateLogged.equals(otherEvent.dateLogged) && this.description.equals(otherEvent.description));
-	}
+    }
 
     @Override
     public int hashCode() {
         return (HASH_CONSTANT * dateLogged.hashCode() + description.hashCode());
     }
-	
-	@Override
+
+    @Override
 	public String toString() {
         return dateLogged.toString() + "\n" + description;
 	}
