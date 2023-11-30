@@ -1,11 +1,5 @@
 {"tracker": [
     {
-        "address": "a",
-        "name": "a",
-        "rating": 4,
-        "visited": true
-    },
-    {
         "address": "b",
         "name": "b",
         "rating": 2,
@@ -14,7 +8,13 @@
     {
         "address": "c",
         "name": "c",
-        "rating": 4,
+        "rating": 5,
         "visited": true
+    },
+    {
+        "address": "d",
+        "name": "d",
+        "rating": 4,
+        "visited": false
     }
 ]}

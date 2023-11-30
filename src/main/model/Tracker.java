@@ -27,7 +27,10 @@ public class Tracker implements Writable {
 
     //EFFECTS: removes the given coffee shop in the list
     public void removeCS(String c) {
-        csList.remove(getFromName(c));
+        CoffeeShop s = getFromName(c);
+        csList.remove(s);
+        EventLog.getInstance().logEvent(new Event("Coffee shop: " + s.getName() + " " + s.getAddress()
+                + " " + s.getRating() + " " + s.getVisited() + ". was removed"));
     }
 
     //EFFECTS: return true if cs is in tracker and false otherwise
@@ -64,6 +67,8 @@ public class Tracker implements Writable {
     //EFFECTS: adds the given coffee shop to list
     public void addCS(CoffeeShop s) {
         csList.add(s);
+        EventLog.getInstance().logEvent(new Event("Coffee shop: " + s.getName() + " " + s.getAddress()
+                + " " + s.getRating() + " " + s.getVisited() + ". was added"));
     }
 
     //EFFECTS: returns csList from tracker

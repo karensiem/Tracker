@@ -39,6 +39,7 @@ public class FilterTest {
         assertEquals(2, testfilter.getNumItems());
         assertEquals(cs1, testfilter.getCoffeeShop(0));
         assertEquals(cs3, testfilter.getCoffeeShop(1));
+        assertEquals(2, testfilter.getHighList().size());
     }
 
     @Test

@@ -1,7 +1,10 @@
 package model;
 
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class Filter extends Tracker {
@@ -19,6 +22,7 @@ public class Filter extends Tracker {
         for (CoffeeShop c : t.csList) {
             if (c.getRating() >= 3.5) {
                 addCS(c);
+                EventLog.getInstance().logEvent(new Event("Tracker filtered"));
             }
         }
     }
@@ -27,6 +31,10 @@ public class Filter extends Tracker {
     //EFFECTS: returns true if the list is empty
     public Boolean isEmpty() {
         return highList.isEmpty();
+    }
+
+    public LinkedList<CoffeeShop> getHighList() {
+        return highList;
     }
 
     @Override
