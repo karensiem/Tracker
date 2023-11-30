@@ -33,6 +33,18 @@ coffee enthusiasts.
 text fields and pressing the add button. 
 - You can generate the second required action related to the user story "adding multiple Xs to a Y" by selecting the 
 element you want to remove and pressing the remove button.
+- You can generate the third required action related to the user story "adding multiple Xs to a Y" by clicking
+the filter button.
 - You can locate my visual component by saving the tracker on the right panel through menuItem "save"
 - You can save the state of my application by clicking the sub menu item under the "save" optioin
 - You can reload the state of my application by clicking the sub menu item under the "load" optioin
+
+### Phase 4: Task 2:
+- Thu Nov 30 15:09:38 PST 2023
+  Coffee shop: CoffeShop1 Address1 3.0 false was added
+- Thu Nov 30 15:09:50 PST 2023
+  Coffee shop: CoffeShop2 Address2 4.0 true was added
+- Thu Nov 30 15:10:04 PST 2023
+  Coffee shop: CoffeShop2 Address2 4.0 true was removed
+- Thu Nov 30 15:10:15 PST 2023
+  Tracker filtered

@@ -1,9 +1,10 @@
 package ui;
 
-import model.CoffeeShop;
-import model.Tracker;
+import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,13 +12,14 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ReviewAppGUI extends JFrame implements ActionListener {
     private Tracker tracker;
     private JList<CoffeeShop> trackerJ;
-    private JList<CoffeeShop> filterJ;
     private static final int HEIGHT = 250;
     private static final int WIDTH = 600;
     private static final String JSON_FILES = "./data/tracker.json";
@@ -58,8 +60,21 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         fieldsCS();
         add(listDisplay());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printLog(EventLog.getInstance());
+                super.windowClosing(e);
+            }
+        });
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private void printLog(EventLog evt) {
+        for (Event e : evt) {
+            System.out.println(e.toString() + "\n");
+        }
     }
 
     //MODIIFIES: this.
@@ -138,7 +153,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         removeCS.setVisible(true);
         removeCS.setFont(new Font("Cinzel", Font.BOLD, 13));
         removeCS.addActionListener(this);
-        removeCS.setActionCommand("add");
+        removeCS.setActionCommand("remove");
         removeCS.setBorderPainted(true);
         removeCS.setOpaque(true);
         removeCS.setContentAreaFilled(true);
@@ -304,7 +319,7 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         Border border = new LineBorder(Color.BLACK,2, true);
         list.setBorder(border);
         tracker = new Tracker();
-        trackerJ = new JList<>();
+        trackerJ = new JList();
         defModel = new DefaultListModel();
         trackerJ.setModel(defModel);
 
@@ -334,14 +349,14 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         filterList.setBorder(border);
         filterList.setLayout(new BorderLayout());
         JLabel text = new JLabel("High rated Coffee Shops:");
-        filterJ = new JList<>();
+        Filter filtr = new Filter();
+        JList filterJ = new JList<CoffeeShop>();
         filterModel = new DefaultListModel();
         filterJ.setModel(filterModel);
 
-        for (CoffeeShop c : tracker.getCSList()) {
-            if (c.getRating() >= 3.5) {
-                filterModel.addElement(c.getName());
-            }
+        filtr.filterHigh(tracker);
+        for (CoffeeShop c : filtr.getHighList()) {
+            filterModel.addElement(c.getName());
         }
 
         filterList.add(filterJ, BorderLayout.CENTER);
@@ -374,13 +389,17 @@ public class ReviewAppGUI extends JFrame implements ActionListener {
         if ("add".equals(act.getActionCommand())) {
             tracker.addCS(createCS());
             clearForm();
-        } else {
-            if ("filter".equals(act.getActionCommand())) {
-                filter();
-            }
+        }
+
+        if ("remove".equals(act.getActionCommand())) {
+            tracker.removeCS(tracker.getCoffeeShop(trackerJ.getSelectedIndex()).getName());
+            defModel.removeElementAt(trackerJ.getSelectedIndex());
+        }
+
+        if ("filter".equals(act.getActionCommand())) {
+            filter();
         }
     }
-
 
 
 
