@@ -50,4 +50,16 @@ public class FilterTest {
         testfilter.filterHigh(t1);
         assertEquals(2, testfilter.getNumItems());
     }
+
+    @Test
+    public void testGetHighList() {
+        t1.addCS(cs2);
+        t1.addCS(cs3);
+        testfilter.filterHigh(t1);
+        assertEquals(1, testfilter.getHighList().size());
+        t1.addCS(cs1);
+        testfilter.filterHigh(t1);
+        assertEquals(2, testfilter.getHighList().size());
+
+    }
 }

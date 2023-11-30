@@ -10,11 +10,5 @@
         "name": "c",
         "rating": 5,
         "visited": true
-    },
-    {
-        "address": "d",
-        "name": "d",
-        "rating": 4,
-        "visited": false
     }
 ]}

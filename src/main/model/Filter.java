@@ -1,10 +1,9 @@
 package model;
 
 
-import java.sql.Array;
-import java.util.ArrayList;
+
 import java.util.LinkedList;
-import java.util.List;
+
 
 
 public class Filter extends Tracker {
@@ -19,6 +18,7 @@ public class Filter extends Tracker {
     //MODIFIES: this
     //EFFECTS: filters out the coffee shops with rating higher or equal to 3.5
     public void filterHigh(Tracker t) {
+        highList = new LinkedList<>();
         for (CoffeeShop c : t.csList) {
             if (c.getRating() >= 3.5) {
                 addCS(c);
