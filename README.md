@@ -36,10 +36,10 @@ element you want to remove and pressing the remove button.
 - You can generate the third required action related to the user story "adding multiple Xs to a Y" by clicking
 the filter button.
 - You can locate my visual component by saving the tracker on the right panel through menuItem "save"
-- You can save the state of my application by clicking the sub menu item under the "save" optioin
-- You can reload the state of my application by clicking the sub menu item under the "load" optioin
+- You can save the state of my application by clicking the sub menu item under the "save" option
+- You can reload the state of my application by clicking the sub menu item under the "load" option
 
-### Phase 4: Task 2:
+### Phase 4: Task 2
 - Thu Nov 30 15:09:38 PST 2023
   Coffee shop: CoffeShop1 Address1 3.0 false was added
 - Thu Nov 30 15:09:50 PST 2023
@@ -48,3 +48,9 @@ the filter button.
   Coffee shop: CoffeShop2 Address2 4.0 true was removed
 - Thu Nov 30 15:10:15 PST 2023
   Tracker filtered
+
+### Phase 4: Task 3
+- A refactoring function I would implement is to have the graphics in ReviewAppGUI to be separate classes themselves
+as it would allow me to edit more efficiently when I am changing the panels/frames.
+- I would also refactor CoffeeShop and Filter into tracker so that I do not have to create too many associations
+between my reviewApp and my reviewAppGUI. This will make editing and/or debugging more clear and less tedious.
